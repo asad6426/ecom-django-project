@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SRS - E-Commerce Web Application</title>
+<style>
+  @page { size: A4; margin: 22mm 18mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #1a1a1a;
+    line-height: 1.55;
+    font-size: 12.5px;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 8px;
+  }
+  h1, h2, h3, h4 { font-family: "Segoe UI", Arial, sans-serif; color: #0b3d63; }
+  .cover {
+    text-align: center;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+  }
+  .cover h1 { font-size: 30px; margin-bottom: 6px; }
+  .cover .subtitle { font-size: 15px; color: #444; margin-bottom: 40px; }
+  .cover table { margin: 0 auto; font-family: Arial, sans-serif; font-size: 12px; }
+  .cover table td { padding: 4px 12px; text-align: left; }
+  h1 { font-size: 20px; border-bottom: 2px solid #0b3d63; padding-bottom: 4px; margin-top: 34px; }
+  h2 { font-size: 15px; margin-top: 22px; color: #0b3d63; }
+  h3 { font-size: 13px; margin-top: 14px; color: #0b3d63; }
+  p { margin: 6px 0; text-align: justify; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 16px 0; font-size: 11.5px; font-family: Arial, sans-serif; }
+  th, td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #0b3d63; color: #fff; }
+  tr:nth-child(even) td { background: #f4f7fa; }
+  ul, ol { margin: 6px 0; padding-left: 22px; }
+  li { margin: 3px 0; }
+  .req-id { font-weight: bold; color: #0b3d63; }
+  .toc a { text-decoration: none; color: #0b3d63; }
+  .toc li { list-style: none; margin: 4px 0; }
+  .toc { border: 1px solid #ccc; padding: 14px 22px; background: #f9fafb; }
+  .section { page-break-inside: avoid; }
+  figure { text-align: center; margin: 14px 0; page-break-inside: avoid; }
+  figure img { max-width: 95%; border: 1px solid #ccc; }
+  figcaption { font-size: 11px; color: #555; margin-top: 6px; font-family: Arial, sans-serif; }
+  .note { background: #fff8e1; border-left: 4px solid #f0ad4e; padding: 8px 12px; font-size: 11.5px; }
+  code { background: #eef1f4; padding: 1px 5px; border-radius: 3px; font-size: 11.5px; }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <h1>Software Requirements Specification</h1>
+  <div class="subtitle">for</div>
+  <h1 style="border:none; font-size:26px;">E-Commerce Web Application</h1>
+  <table>
+    <tr><td><b>Version</b></td><td>1.0</td></tr>
+    <tr><td><b>Date</b></td><td>September 16, 2026</td></tr>
+    <tr><td><b>Prepared based on</b></td><td>System Entity-Relationship Diagram (ERD.png)</td></tr>
+  </table>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2 style="margin-top:0;">Table of Contents</h2>
+  <ol>
+    <li><a href="#s1">Introduction</a></li>
+    <li><a href="#s2">Overall Description</a></li>
+    <li><a href="#s3">Functional Requirements</a></li>
+    <li><a href="#s4">Non-Functional Requirements</a></li>
+    <li><a href="#s5">Data Requirements (Entity-Relationship Model)</a></li>
+    <li><a href="#s6">Use Case Summaries</a></li>
+    <li><a href="#s7">Appendix A: Entity-Relationship Diagram</a></li>
+  </ol>
+</div>
+
+<!-- 1. INTRODUCTION -->
+<h1 id="s1">1. Introduction</h1>
+
+<h2>1.1 Purpose</h2>
+<p>This Software Requirements Specification (SRS) document describes the functional and non-functional
+requirements of the <b>E-Commerce Web Application</b>. The purpose of this document is to provide a clear and
+detailed description of the system's behavior, data structures, and constraints, derived from the system's
+Entity-Relationship Diagram (ERD), to guide the design, development, and testing of the application.</p>
+
+<h2>1.2 Scope</h2>
+<p>The E-Commerce Web Application enables customers to browse product categories and products, manage a
+personal shopping cart, place orders, and rate/review purchased products. It also supports administrative
+management of categories and products. The system covers the following core modules: User Management,
+Category Management, Product Management, Shopping Cart, Order Management, and Product Rating &amp; Review.</p>
+
+<h2>1.3 Definitions, Acronyms and Abbreviations</h2>
+<table>
+  <tr><th>Term</th><th>Description</th></tr>
+  <tr><td>SRS</td><td>Software Requirements Specification</td></tr>
+  <tr><td>ERD</td><td>Entity-Relationship Diagram</td></tr>
+  <tr><td>PK</td><td>Primary Key</td></tr>
+  <tr><td>FK</td><td>Foreign Key</td></tr>
+  <tr><td>UK</td><td>Unique Key / Unique Constraint</td></tr>
+  <tr><td>CRUD</td><td>Create, Read, Update, Delete</td></tr>
+  <tr><td>User</td><td>A registered customer of the system</td></tr>
+  <tr><td>Admin</td><td>A privileged user who manages catalog data</td></tr>
+</table>
+
+<h2>1.4 References</h2>
+<p>System Entity-Relationship Diagram — <code>ERD.png</code> (project reference document, see Appendix A).</p>
+
+<h2>1.5 Overview</h2>
+<p>The remainder of this document is organized as follows: Section 2 gives an overall description of the
+product and its users; Section 3 lists detailed functional requirements grouped by module; Section 4
+describes non-functional requirements; Section 5 documents the data model derived from the ERD; Section 6
+summarizes key use cases; and Appendix A presents the full ERD.</p>
+
+<!-- 2. OVERALL DESCRIPTION -->
+<h1 id="s2">2. Overall Description</h1>
+
+<h2>2.1 Product Perspective</h2>
+<p>The E-Commerce Web Application is a standalone, self-contained web-based system consisting of a
+customer-facing storefront and back-end data management for products, orders, and users. It follows a
+relational data model, as depicted in the system ERD, comprising eight core entities: <b>User</b>,
+<b>Category</b>, <b>Product</b>, <b>Cart</b>, <b>CartItem</b>, <b>Order</b>, <b>OrderItem</b>, and <b>Rating</b>.</p>
+
+<h2>2.2 Product Functions</h2>
+<ul>
+  <li>User registration, authentication, and account management</li>
+  <li>Browsing of product categories and products</li>
+  <li>Management of a personal shopping cart (add, update, remove items)</li>
+  <li>Placing and tracking orders, including shipping details and payment status</li>
+  <li>Submitting one rating and comment per product per user</li>
+  <li>Administrative management of categories and products</li>
+</ul>
+
+<h2>2.3 User Classes and Characteristics</h2>
+<table>
+  <tr><th>User Class</th><th>Description</th></tr>
+  <tr><td>Customer (User)</td><td>A registered user who browses products, manages a cart, places orders, and rates products.</td></tr>
+  <tr><td>Administrator</td><td>A user with elevated privileges responsible for managing categories, products, and order fulfillment.</td></tr>
+  <tr><td>Guest</td><td>An unauthenticated visitor who can browse categories and products but must register/log in to purchase.</td></tr>
+</table>
+
+<h2>2.4 Operating Environment</h2>
+<p>The system operates as a web application accessible via standard web browsers, backed by a relational
+database that implements the entities and relationships defined in Section 5.</p>
+
+<h2>2.5 Design and Implementation Constraints</h2>
+<ul>
+  <li>Each <b>User</b> has at most one <b>Cart</b> (one-to-one relationship).</li>
+  <li>Each <b>Rating</b> is constrained by a unique combination of <code>product_id</code> and <code>user_id</code>
+      (a user may rate a given product only once).</li>
+  <li><b>Category</b> and <b>Product</b> slugs must be unique across the system.</li>
+  <li>All monetary values (e.g., <code>Product.price</code>, <code>OrderItem.price</code>) must be stored using a
+      decimal data type to avoid rounding errors.</li>
+</ul>
+
+<h2>2.6 Assumptions and Dependencies</h2>
+<p>It is assumed that a single default currency is used throughout the system, that products belong to exactly
+one category, and that payment processing/transaction verification is handled by an external payment gateway
+referenced via the <code>Order.transaction_id</code> field.</p>
+
+<!-- 3. FUNCTIONAL REQUIREMENTS -->
+<h1 id="s3">3. Functional Requirements</h1>
+
+<h2 class="section">3.1 User Management</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-1.1</td><td>The system shall allow a new user to register with a unique username, email, and password.</td></tr>
+  <tr><td class="req-id">FR-1.2</td><td>The system shall allow a registered user to log in using their username/email and password.</td></tr>
+  <tr><td class="req-id">FR-1.3</td><td>The system shall securely store user passwords (e.g., hashed, never in plain text).</td></tr>
+  <tr><td class="req-id">FR-1.4</td><td>The system shall automatically associate exactly one shopping cart with each registered user.</td></tr>
+</table>
+
+<h2 class="section">3.2 Category Management</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-2.1</td><td>The system shall allow an administrator to create, update, and delete product categories.</td></tr>
+  <tr><td class="req-id">FR-2.2</td><td>Each category shall have a unique name, a unique slug, and an optional description.</td></tr>
+  <tr><td class="req-id">FR-2.3</td><td>The system shall allow users to browse products filtered by category.</td></tr>
+</table>
+
+<h2 class="section">3.3 Product Management</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-3.1</td><td>The system shall allow an administrator to create, update, and delete products.</td></tr>
+  <tr><td class="req-id">FR-3.2</td><td>Each product shall belong to exactly one category and include name, unique slug, description, price, stock quantity, availability flag, and image.</td></tr>
+  <tr><td class="req-id">FR-3.3</td><td>The system shall automatically record the creation and last-updated timestamps of each product.</td></tr>
+  <tr><td class="req-id">FR-3.4</td><td>The system shall prevent a product from being purchased when its stock is zero or its availability flag is false.</td></tr>
+  <tr><td class="req-id">FR-3.5</td><td>The system shall allow users to view detailed information and ratings for a given product.</td></tr>
+</table>
+
+<h2 class="section">3.4 Shopping Cart</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-4.1</td><td>The system shall provide each logged-in user with exactly one persistent cart.</td></tr>
+  <tr><td class="req-id">FR-4.2</td><td>The system shall allow a user to add a product to their cart as a cart item with a specified quantity.</td></tr>
+  <tr><td class="req-id">FR-4.3</td><td>The system shall allow a user to update the quantity of, or remove, a cart item.</td></tr>
+  <tr><td class="req-id">FR-4.4</td><td>The system shall record and update the cart's <code>created_at</code> and <code>updated_at</code> timestamps.</td></tr>
+</table>
+
+<h2 class="section">3.5 Order Management</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-5.1</td><td>The system shall allow a user to place an order, converting the current cart items into order items.</td></tr>
+  <tr><td class="req-id">FR-5.2</td><td>Each order shall capture recipient details: first name, last name, email, address, postal code, and city.</td></tr>
+  <tr><td class="req-id">FR-5.3</td><td>Each order shall have a status (e.g., pending, processing, shipped, delivered, cancelled) and an optional note.</td></tr>
+  <tr><td class="req-id">FR-5.4</td><td>The system shall track whether an order has been paid and store an associated payment transaction ID.</td></tr>
+  <tr><td class="req-id">FR-5.5</td><td>Each order item shall record the product, quantity, and the price of the product at the time of purchase.</td></tr>
+  <tr><td class="req-id">FR-5.6</td><td>The system shall allow a user to view their order history and the current status of each order.</td></tr>
+</table>
+
+<h2 class="section">3.6 Product Rating &amp; Review</h2>
+<table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req-id">FR-6.1</td><td>The system shall allow a user to submit a numeric rating and an optional comment for a product.</td></tr>
+  <tr><td class="req-id">FR-6.2</td><td>The system shall restrict each user to at most one rating per product (enforced by a unique product-user constraint).</td></tr>
+  <tr><td class="req-id">FR-6.3</td><td>The system shall record the timestamp when a rating is created.</td></tr>
+  <tr><td class="req-id">FR-6.4</td><td>The system shall display the ratings and comments associated with a product on its detail page.</td></tr>
+</table>
+
+<!-- 4. NON-FUNCTIONAL REQUIREMENTS -->
+<h1 id="s4">4. Non-Functional Requirements</h1>
+
+<h2>4.1 Performance</h2>
+<p>The system shall load product listing and product detail pages within 2 seconds under normal load conditions.</p>
+
+<h2>4.2 Security</h2>
+<ul>
+  <li>User passwords shall be stored using a strong one-way hashing algorithm.</li>
+  <li>All sensitive operations (checkout, account management) shall require an authenticated session.</li>
+  <li>Payment transaction identifiers shall not be exposed to unauthorized users.</li>
+</ul>
+
+<h2>4.3 Usability</h2>
+<p>The user interface shall be intuitive and require no special training for a typical online shopper to browse
+products, manage a cart, and place an order.</p>
+
+<h2>4.4 Reliability &amp; Availability</h2>
+<p>The system shall ensure that order and payment data is never lost once an order has been confirmed, and shall
+target at least 99% uptime.</p>
+
+<h2>4.5 Scalability</h2>
+<p>The data model shall support growth in the number of categories, products, users, and orders without requiring
+structural changes to the schema.</p>
+
+<h2>4.6 Maintainability</h2>
+<p>The system's data access layer shall reflect the entity relationships defined in Section 5, allowing future
+features to be added with minimal impact on existing modules.</p>
+
+<!-- 5. DATA REQUIREMENTS -->
+<h1 id="s5">5. Data Requirements (Entity-Relationship Model)</h1>
+<p>This section documents the core entities and their attributes as derived from the system ERD (see Appendix A).</p>
+
+<h2>5.1 User</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>username</td><td>string</td><td></td></tr>
+  <tr><td>email</td><td>string</td><td></td></tr>
+  <tr><td>password</td><td>string</td><td></td></tr>
+</table>
+
+<h2>5.2 Category</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>name</td><td>string</td><td></td></tr>
+  <tr><td>slug</td><td>string</td><td>UK</td></tr>
+  <tr><td>description</td><td>string</td><td></td></tr>
+</table>
+
+<h2>5.3 Product</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>name</td><td>string</td><td></td></tr>
+  <tr><td>slug</td><td>string</td><td>UK</td></tr>
+  <tr><td>category_id</td><td>int</td><td>FK &rarr; Category.id</td></tr>
+  <tr><td>description</td><td>string</td><td></td></tr>
+  <tr><td>price</td><td>decimal</td><td></td></tr>
+  <tr><td>stock</td><td>int</td><td></td></tr>
+  <tr><td>available</td><td>boolean</td><td></td></tr>
+  <tr><td>created</td><td>datetime</td><td></td></tr>
+  <tr><td>updated</td><td>datetime</td><td></td></tr>
+  <tr><td>image</td><td>string</td><td></td></tr>
+</table>
+
+<h2>5.4 Cart</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>user_id</td><td>int</td><td>FK &rarr; User.id (One-to-One)</td></tr>
+  <tr><td>created_at</td><td>datetime</td><td></td></tr>
+  <tr><td>updated_at</td><td>datetime</td><td></td></tr>
+</table>
+
+<h2>5.5 CartItem</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>cart_id</td><td>int</td><td>FK &rarr; Cart.id</td></tr>
+  <tr><td>product_id</td><td>int</td><td>FK &rarr; Product.id</td></tr>
+  <tr><td>quantity</td><td>int</td><td></td></tr>
+</table>
+
+<h2>5.6 Order</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>user_id</td><td>int</td><td>FK &rarr; User.id</td></tr>
+  <tr><td>first_name</td><td>string</td><td></td></tr>
+  <tr><td>last_name</td><td>string</td><td></td></tr>
+  <tr><td>email</td><td>string</td><td></td></tr>
+  <tr><td>address</td><td>string</td><td></td></tr>
+  <tr><td>postal_code</td><td>string</td><td></td></tr>
+  <tr><td>city</td><td>string</td><td></td></tr>
+  <tr><td>created</td><td>datetime</td><td></td></tr>
+  <tr><td>updated</td><td>datetime</td><td></td></tr>
+  <tr><td>status</td><td>string</td><td></td></tr>
+  <tr><td>note</td><td>string</td><td></td></tr>
+  <tr><td>paid</td><td>boolean</td><td></td></tr>
+  <tr><td>transaction_id</td><td>string</td><td></td></tr>
+</table>
+
+<h2>5.7 OrderItem</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>order_id</td><td>int</td><td>FK &rarr; Order.id</td></tr>
+  <tr><td>product_id</td><td>int</td><td>FK &rarr; Product.id</td></tr>
+  <tr><td>price</td><td>decimal</td><td></td></tr>
+  <tr><td>quantity</td><td>int</td><td></td></tr>
+</table>
+
+<h2>5.8 Rating</h2>
+<table>
+  <tr><th>Field</th><th>Type</th><th>Key</th></tr>
+  <tr><td>id</td><td>int</td><td>PK</td></tr>
+  <tr><td>product_id</td><td>int</td><td>FK &rarr; Product.id</td></tr>
+  <tr><td>user_id</td><td>int</td><td>FK &rarr; User.id</td></tr>
+  <tr><td>rating</td><td>int</td><td></td></tr>
+  <tr><td>comment</td><td>string</td><td></td></tr>
+  <tr><td>created</td><td>datetime</td><td></td></tr>
+  <tr><td>unique_product_user</td><td>constraint</td><td>UK (product_id, user_id)</td></tr>
+</table>
+
+<h2>5.9 Entity Relationships Summary</h2>
+<table>
+  <tr><th>Relationship</th><th>Cardinality</th></tr>
+  <tr><td>Category &rarr; Product</td><td>One category has many products</td></tr>
+  <tr><td>User &rarr; Cart</td><td>One user has one cart (1:1)</td></tr>
+  <tr><td>User &rarr; Order</td><td>One user places many orders</td></tr>
+  <tr><td>Cart &rarr; CartItem</td><td>One cart contains many cart items</td></tr>
+  <tr><td>Product &rarr; CartItem</td><td>One product is included in many cart items</td></tr>
+  <tr><td>Order &rarr; OrderItem</td><td>One order contains many order items</td></tr>
+  <tr><td>Product &rarr; OrderItem</td><td>One product is included in many order items</td></tr>
+  <tr><td>Product &rarr; Rating</td><td>One product has many ratings</td></tr>
+  <tr><td>User &rarr; Rating</td><td>One user gives many ratings (at most one per product)</td></tr>
+</table>
+
+<!-- 6. USE CASES -->
+<h1 id="s6">6. Use Case Summaries</h1>
+
+<h2>UC-1: Browse Products by Category</h2>
+<p><b>Actor:</b> Guest / Customer. <b>Description:</b> The user selects a category and views the list of
+available products belonging to it. <b>Precondition:</b> At least one category and product exist.
+<b>Postcondition:</b> A filtered product list is displayed.</p>
+
+<h2>UC-2: Add Product to Cart</h2>
+<p><b>Actor:</b> Customer. <b>Description:</b> The user selects a product and quantity, and adds it to their
+cart. <b>Precondition:</b> User is logged in; product is available and in stock. <b>Postcondition:</b> A new
+CartItem is created or an existing one's quantity is updated.</p>
+
+<h2>UC-3: Place an Order (Checkout)</h2>
+<p><b>Actor:</b> Customer. <b>Description:</b> The user reviews cart items, provides shipping details, and
+confirms the order. <b>Precondition:</b> Cart contains at least one item. <b>Postcondition:</b> An Order and
+its corresponding OrderItems are created; the cart is cleared.</p>
+
+<h2>UC-4: Rate a Product</h2>
+<p><b>Actor:</b> Customer. <b>Description:</b> The user submits a rating (and optional comment) for a product
+they have purchased. <b>Precondition:</b> User has not already rated this product. <b>Postcondition:</b> A
+new Rating record is created and displayed on the product page.</p>
+
+<h2>UC-5: Manage Products (Admin)</h2>
+<p><b>Actor:</b> Administrator. <b>Description:</b> The administrator creates, edits, or removes a product,
+including its category assignment, price, and stock. <b>Postcondition:</b> The Product catalog is updated.</p>
+
+<!-- APPENDIX -->
+<h1 id="s7">Appendix A: Entity-Relationship Diagram</h1>
+<figure>
+  <img src="ERD.png" alt="Entity-Relationship Diagram">
+  <figcaption>Figure A.1 — Entity-Relationship Diagram of the E-Commerce Web Application</figcaption>
+</figure>
+
+</body>
+</html>
